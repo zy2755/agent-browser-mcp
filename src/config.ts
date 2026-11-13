@@ -136,7 +136,7 @@ export function loadConfig(argv: string[] = process.argv.slice(2)): BrowserMcpCo
     startUrl: env.BROWSER_MCP_START_URL,
   });
 
-  // 命令行参数(优先级最高;ZCode 注册时用 args 传)
+  // 命令行参数(优先级最高;MCP 客户端注册时可用 args 传入)
   apply({
     mode: args["connect"] === true || (typeof args["cdp-url"] === "string" && args["cdp-url"] !== "") ? "connect" : undefined,
     cdpUrl: typeof args["cdp-url"] === "string" ? args["cdp-url"] : args["connect"] === true ? "http://127.0.0.1:9222" : undefined,

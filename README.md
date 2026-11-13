@@ -7,25 +7,61 @@
 
 技术栈:Node + TypeScript + playwright-core(免下载浏览器,直接驱动系统已装的 Chrome/Edge)。
 
-## 接入 ZCode(已配置)
+## 接入 MCP 客户端
 
-`~/.agents/mcp.json` 中已注册(2026-01 新增),重启 ZCode 后自动连接:
+server 走 stdio,任何支持 stdio MCP 的客户端都能接。先 `npm install && npm run build`,再把 `dist/index.js` 的**绝对路径**填进客户端配置(GUI 应用常不继承 shell 的工作目录,相对路径容易解析失败)。
+
+### 通用配置
 
 ```json
-"agent-browser-mcp": {
-  "command": "D:\\nodejs\\node.exe",
-  "args": ["D:\\Projects\\AI控制浏览器\\dist\\index.js"]
+{
+  "mcpServers": {
+    "agent-browser-mcp": {
+      "command": "node",
+      "args": ["/absolute/path/to/agent-browser-mcp/dist/index.js"]
+    }
+  }
 }
 ```
 
-其他 MCP 客户端(Claude Desktop / OpenClaw 等)用同样的 stdio 配置即可。
+若客户端启动时拿不到 shell 的 `PATH`,把 `command` 换成 node 可执行文件的完整路径,如 `/usr/local/bin/node` 或 `C:\\Program Files\\nodejs\\node.exe`。
+
+### Claude Desktop
+
+配置文件位置:
+
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "agent-browser-mcp": {
+      "command": "node",
+      "args": ["C:\\path\\to\\agent-browser-mcp\\dist\\index.js"]
+    }
+  }
+}
+```
+
+写完后**完全退出并重启**客户端(macOS 需从菜单栏退出,只关窗口不会重载配置)。Claude Code / Cline / Cursor / OpenClaw 等同样用这份 `mcpServers` 结构,只是配置文件位置不同。
+
+### 启动参数
+
+需要调整浏览器行为时,直接往 `args` 追加命令行参数:
+
+```json
+"args": ["/absolute/path/to/dist/index.js", "--headless", "--channels", "msedge"]
+```
+
+完整参数见 `node dist/index.js --help`。更推荐把常用项固化到 `~/.browser-mcp/config.json`(见下文「配置」),这样多个客户端共用一份配置。
 
 ## 构建
 
 ```bash
 npm install
 npm run build     # 产物在 dist/
-npm test          # 冒烟测试(40 项,会真实启动 Chrome)
+npm run smoke     # 冒烟测试(40 项,会真实启动 Chrome)
 npm run serve:fixtures   # 本地测试页(手动调试用)
 ```
 
@@ -115,3 +151,7 @@ test/
 ## 二期 backlog
 
 文件上传、下载管理增强、请求拦截、Cookie/存储管理、PDF 导出、CLI 前端。
+
+## 许可证
+
+Apache-2.0,见 [LICENSE](LICENSE)。
