@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><title>基础测试页</title></head>
+<body>
+  <header><h1>基础交互测试</h1></header>
+  <main>
+    <nav><a href="/second.html">第二页</a></nav>
+    <form id="login-form" aria-label="登录表单">
+      <label for="username">用户名</label>
+      <input id="username" type="text" placeholder="请输入用户名">
+      <label for="password">密码</label>
+      <input id="password" type="password">
+      <label><input id="remember" type="checkbox"> 记住我</label>
+      <button id="login-btn" type="button" onclick="doLogin()">登录</button>
+    </form>
+    <div>
+      <label for="city">城市</label>
+      <select id="city">
+        <option value="bj">北京</option>
+        <option value="sh">上海</option>
+        <option value="gz">广州</option>
+      </select>
+    </div>
+    <p id="result">等待操作…</p>
+    <div style="height:120px;overflow-y:auto;border:1px solid #ccc" id="scroll-box">
+      <div style="height:600px">长内容区域,可滚动</div>
+    </div>
+  </main>
+  <script>
+    let clicks = 0;
+    function doLogin() {
+      clicks++;
+      document.getElementById('result').textContent =
+        '登录成功 #' + clicks + ' 用户=' + (document.getElementById('username').value || '(空)');
+    }
+  </script>
+</body>
+</html>

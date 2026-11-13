@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><title>Shadow DOM 测试页</title></head>
+<body>
+  <h1>Shadow DOM 交互测试</h1>
+  <div id="host"></div>
+  <p id="status">未点击</p>
+  <script>
+    const host = document.getElementById('host');
+    const shadow = host.attachShadow({ mode: 'open' });
+    shadow.innerHTML = `
+      <div style="border:1px solid #888;padding:12px">
+        <input id="sh-input" type="text" placeholder="shadow 输入框">
+        <button id="sh-btn">shadow 按钮</button>
+        <span id="sh-count">0</span>
+      </div>`;
+    let n = 0;
+    shadow.getElementById('sh-btn').addEventListener('click', () => {
+      n++;
+      shadow.getElementById('sh-count').textContent = String(n);
+      document.getElementById('status').textContent =
+        'shadow 点击 ' + n + ' 次,输入=' + (shadow.getElementById('sh-input').value || '(空)');
+    });
+  </script>
+</body>
+</html>

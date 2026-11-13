@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><title>Iframe 测试页</title></head>
+<body>
+  <h1>Iframe 交互测试</h1>
+  <p>跨源 iframe(127.0.0.1 vs localhost):</p>
+  <iframe src="http://127.0.0.1:8899/child.html" width="480" height="220" name="frame1"></iframe>
+  <p id="parent-status">父页未收到消息</p>
+  <script>
+    window.addEventListener('message', (e) => {
+      document.getElementById('parent-status').textContent = '父页收到: ' + e.data;
+    });
+  </script>
+</body>
+</html>

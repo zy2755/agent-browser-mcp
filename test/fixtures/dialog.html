@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><title>对话框与懒加载测试页</title></head>
+<body>
+  <h1>对话框与懒加载</h1>
+  <button id="alert-btn" onclick="alert('这是一个警告对话框')">触发 alert</button>
+  <button id="confirm-btn" onclick="document.getElementById('confirm-result').textContent = confirm('确认吗?') ? '确认了' : '取消了'">触发 confirm</button>
+  <p id="confirm-result"></p>
+  <button id="lazy-btn" onclick="setTimeout(function(){ document.getElementById('lazy-content').innerHTML = '<button id=lazy-target>延迟出现的按钮</button>'; }, 1500)">加载延迟内容</button>
+  <div id="lazy-content"></div>
+  <button id="nav-btn" onclick="location.href='/basic.html'">跳转到基础页</button>
+</body>
+</html>

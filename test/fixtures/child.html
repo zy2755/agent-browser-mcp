@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><title>iframe 子页</title></head>
+<body>
+  <div style="background:#eef;padding:10px">
+    <p>这是 iframe 内部</p>
+    <button id="child-btn" onclick="childClick()">iframe 内按钮</button>
+    <span id="child-count">0</span>
+    <input id="child-input" placeholder="iframe 内输入框">
+  </div>
+  <script>
+    let n = 0;
+    function childClick() {
+      n++;
+      document.getElementById('child-count').textContent = String(n);
+      parent.postMessage('iframe按钮被点了' + n + '次', '*');
+    }
+  </script>
+</body>
+</html>
